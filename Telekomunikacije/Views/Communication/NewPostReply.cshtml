@@ -1,0 +1,29 @@
+﻿@model Telekomunikacije.Models.Post
+
+@{
+    ViewBag.Title = "NewPostReply";
+}
+
+
+
+<div class="list-group-item list-group-item-action flex-column align-items-start active">
+    <div class="d-flex w-100 justify-content-between">
+
+        <h2 class="mb-1">@Model.User.FirstName @Model.User.LastName</h2>
+        @*<small>@item.Created</small>*@
+    </div>
+    <p class="mb-1">@Model.Content</p>
+    @*<small>primer</small>*@
+</div>
+<br />
+@using (Html.BeginForm("CreatePostReply", "Communication"))
+{
+    <div class="form-group">
+        @Html.Label("sadrzaj")
+        @Html.TextArea("sadrzaj", new { @class = "form-control" })
+    </div>
+   @Html.Hidden("postId",Model.Id)
+   
+    <button type="submit" class="btn btn-primary">Odgovorite</button>
+
+}

@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Telekomunikacije.ViewModels.UserRoleViewModel>
+
+@{
+    ViewBag.Title = "Korisnici";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>
+    Korisnici
+</h2>
+
+<table class="table table-bordered table-hover" >
+    <thead>
+        <tr>
+            <th><b>Korisnici</b></th>
+            <th><b>Autorizacija</b></th>
+            <th><b>Promeni Role</b></th>
+            <th><b>Obrisati Korisnika</b></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            if(item.UserName != "Admin")
+            {
+
+
+        <tr>
+
+
+            <td>
+
+                @Html.ActionLink(item.UserName, "MembersInfo", "Members", new { id = item.Id }, null)
+            </td>
+            <td>
+                @foreach (var role in item.Roles)
+                {
+
+                    @role<br /> 
+                }
+            </td>
+                <td>
+
+                    @Html.ActionLink("Izmeniti Role", "RoleInfo", "Members", new { id = item.Id }, new { @class = "btn btn-primary" })
+                </td>
+
+                <td>
+                    @using (Html.BeginForm("DeleteUser", "Members", new { id = item.Id }))
+                    {
+                        
+                        <input type="submit" value="Izbrisati Korisnika" class="btn btn-danger" onclick="return confirm('Da li ste sigurni da zelite da izbrisete Korisnika @item.UserName?')" />
+                    }
+
+                </td>
+
+            </tr>
+            }
+        }
+    </tbody>
+
+</table>
+
+

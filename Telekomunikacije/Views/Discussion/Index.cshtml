@@ -1,0 +1,35 @@
+﻿@model Telekomunikacije.ViewModels.DiscussionIndexViewModel
+@{
+    ViewBag.Title = "Index";
+}
+<h2>Diskusije</h2>
+<table class="table table-hover table-bordered">
+    <thead>
+        <tr>
+            <th>
+                Ime
+            </th>
+            <th>
+                Opis
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+                @foreach (var item in Model.TopicList)
+            {
+            <tr>
+                <td>
+                   @Html.ActionLink(@item.Name,"Topic","Discussion",new { Id = item.Id},null)
+                 </td>
+                <td>
+                    
+                    @item.Description
+                </td>
+            </tr>
+            }
+           
+        </tbody>
+</table>
+
+

@@ -1,0 +1,44 @@
+﻿@model Telekomunikacije.ViewModels.PostIndexViewModel
+@{
+    ViewBag.Title = "Post";
+}
+
+<h2>@Model.Title</h2>
+
+<div>
+    Autor:@Model.AuthorName<br />
+    Postavljeno:@Model.Created<br />
+
+
+</div>
+<div>
+    <h3>@Model.PostContent</h3> <br />
+</div>
+@if(Model.Replies.Any())
+{<ul>
+    @foreach(var item in Model.Replies)
+    {
+     <li>
+         <div>
+             <div>
+                 Odgovorio:@item.AuthorName<br />
+                 Postavljeno:@item.Created<br />
+
+
+             </div>
+             <div>
+                 Odgovor:<h3> @item.ReplyContent</h3>
+             </div>
+         </div>
+     </li>
+    
+    }
+</ul>
+
+}
+else
+{
+    <h3>
+        Nema nikakvih odgovora na ovom postu. Budi prvi koji ce napraviti jedan @Html.ActionLink("odgovor.","CreateReply","Post",new { Id=Model.Id},null)
+    </h3>
+}

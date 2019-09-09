@@ -1,0 +1,184 @@
+﻿@model Telekomunikacije.Models.Course
+@{
+    ViewBag.Title = Model.Name;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+    <link href="~/Content/Site.css" rel="stylesheet" />
+
+
+    <div class="list-group-item list-group-item-action flex-column align-items-start active">
+
+        <div class="d-flex w-100 justify-content-between">
+            <h2 class="mb-1">@Model.Name</h2>
+            @*<small>@item.Created</small>*@
+        </div>
+        <p class="mb-1">Dobrodosli na kurs @Model.Name</p>
+        @*<small>primer</small>*@
+    </div>
+    <body>
+
+        @using (Html.BeginForm("Index", "Courses", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <br />
+            <h4>Odaberite Fajl Koji Zelite Da Uploadujete:</h4>
+            <input type="file" name="postedFile" class="btn btn-primary " style="float:left;" />
+            <br />
+            <br />
+            <br />
+            @Html.ValidationMessage("postedFile")
+            <h4>Opis Fajla:</h4>
+
+            @Html.TextArea("Description", null, new { @class = "form-control" })
+            @Html.ValidationMessage("Description")
+            <br />
+            <h4>
+                Izaberite Kojoj Kategoriji Fajl Pripada:
+            </h4>
+            <select name="purposeId" class="form-control">
+                <option selected value="1">Rezultati</option>
+                
+                <option value="2">Lekcije</option>
+
+            </select>
+            @Html.ValidationMessage("purposeId")
+
+
+
+
+            @Html.HiddenFor(c => c.Id)
+            <br />
+            <input type="submit" id="btnUpload1" class="btn btn-success" value="Upload" style="float:left;" />
+
+        }
+        @using (Html.BeginForm("DownloadFile", "Courses", FormMethod.Post))
+        {
+            <input type="hidden" id="hfFileId" name="FileId" />
+            <input type="submit" id="btnDownload" class="btn btn-primary" value="Download" style="display:none" />
+        }
+        <hr />
+        <br />
+        <br />
+        <ul class="list-group">
+            <li class="list-group-item active">
+                <h4>Rezultati Ispita I Kolokvijuma</h4>
+            </li>
+        </ul>
+        
+        <table cellpadding="0" cellspacing="0" class="table table-bordered table-hover">
+            <tr>
+                <th style="width:35%">Opis Fajla</th>
+                <th style="width:35%">Ime Fajla</th>
+                <th style="width:15%">Skinuti Fajl</th>
+                <th style="width:15%">Obrisati Fajl</th>
+
+            </tr>
+
+            @foreach (var file in ViewBag.Files)
+            {
+                if (file.PurposeId == 1)
+                {
+                    <tr>
+                        <td>@file.Description</td>
+                        <td>@file.Name</td>
+                        <td>@Html.ActionLink("Download", "DownloadFile", new { @fileId = file.Id }, new { @class = "btn btn-success" })</td>
+                        <td>
+                            @using (Html.BeginForm("DeleteFile", "Courses", new { fileId = file.Id }))
+                            {
+                                <input type="submit" value="Izbrisati Fajl" class="btn btn-danger" onclick="return confirm('Da li ste sigurni da zelite da izbrisete fajl @file.Name?')" />
+                                @Html.HiddenFor(m => m.Id)
+                            }
+                        </td>
+
+
+                    </tr>
+                }
+
+
+
+
+            }
+
+        </table>
+        <hr />
+        <hr />
+        <ul class="list-group">
+            <li class="list-group-item active">
+                <h4>Lekcije I Literatura Vezana Za Predmet</h4>
+            </li>
+        </ul>
+
+
+        <table cellpadding="0" cellspacing="0" class="table table-bordered table-hover">
+            <tr>
+                <th style="width:35%">Opis Fajla</th>
+                <th style="width:35%">Ime Fajla</th>
+                <th style="width:15%">Skinuti Fajl</th>
+                <th style="width:15%">Obrisati Fajl</th>
+
+            </tr>
+
+            @foreach (var file in ViewBag.Files)
+            {
+                if (file.PurposeId == 2)
+                {
+                    <tr>
+                        <td>@file.Description</td>
+                        <td>@file.Name</td>
+                        <td>@Html.ActionLink("Download", "DownloadFile", new { @fileId = file.Id }, new { @class = "btn btn-success" })</td>
+                        <td>
+                            @using (Html.BeginForm("DeleteFile", "Courses", new { fileId = file.Id }))
+                            {
+                                <input type="submit" value="Izbrisati Fajl" class="btn btn-danger" onclick="return confirm('Da li ste sigurni da zelite da izbrisete fajl @file.Name?')" />
+                                @Html.HiddenFor(m => m.Id)
+                            }
+                        </td>
+
+
+                    </tr>
+                }
+
+
+            }
+
+        </table>
+
+
+        <hr />
+        <hr />
+
+        <ul class="list-group">
+            <li class="list-group-item active">
+                <h4>Korisnici koji su upisani na kurs @Model.Name</h4>
+            </li>
+            @foreach (var item in ViewBag.users)
+            {
+        <li class="list-group-item">
+            <img src="data:image;base64,@System.Convert.ToBase64String(item.UserPhoto)" style="width:50px;height:50px; background: #FFFFFF;
+    margin: auto;
+    -moz-border-radius: 15px;
+    border-radius: 25px;
+    padding: 6px;
+    box-shadow: 0px 0px 20px #888;" />
+            @item.UserName @item.LastName
+
+        </li>
+
+            }
+        </ul>
+
+
+        @using (Html.BeginForm("RemoveFromCourse", "Courses"))
+        {
+            @Html.HiddenFor(m => m.Id)
+            <button type="submit" class="btn btn-danger">Ispisi Me Sa Kursa</button>
+        }
+
+
+
+
+
+
+
+    </body>
+
+

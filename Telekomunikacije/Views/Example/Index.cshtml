@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Telekomunikacije.Models.Post>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<ul>
+    @foreach(var item in Model)
+    {
+    <li>
+        @item.Title
+        
+    </li>
+    <ul>
+        
+           @*@foreach(var post in item.Posts)
+            {
+                <li>
+                    @post.Title
+                </li>
+            }*@
+
+        
+    </ul>
+    
+    }
+    
+</ul>

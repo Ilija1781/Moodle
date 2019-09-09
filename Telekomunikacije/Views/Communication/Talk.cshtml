@@ -1,0 +1,77 @@
+﻿@model IEnumerable<Telekomunikacije.Models.PostReply>
+@{
+    ViewBag.Title = "Postovi";
+}
+@*@foreach(var item in Model)
+{
+    <h1>
+        @item.User.FirstName        
+    </h1>
+}*@
+<a href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
+    <div class="d-flex w-100 justify-content-between">
+
+        <h2 class="mb-1">@ViewBag.Post.Title</h2>
+        @*<small>@item.Created</small>*@
+    </div>
+    <p class="mb-1">@ViewBag.Post.Content</p>
+    @*<small>primer</small>*@
+</a>
+@if (Model.Any())
+{
+    <div class="list-group">
+        @foreach (var item in Model)
+        {
+
+
+            <div class="list-group-item list-group-item-action flex-column align-items-start">
+
+
+                <img src="data:image;base64,@System.Convert.ToBase64String(item.User.UserPhoto)" class="pull-right mb-1" style="width:100px;height:100px; background: #FFFFFF;
+    margin: auto;
+    -moz-border-radius: 15px;
+    border-radius: 25px;
+    padding: 6px;
+    box-shadow: 0px 0px 20px #888;" />
+
+                <div class="d-flex w-100 justify-content-between">
+                    <small class="text-muted ">@item.Created</small>
+                    <br />
+                    <small class="text-muted pull-left top-left">@item.User.FirstName @item.User.LastName</small>
+                    <h3 class="mb-1">@ViewBag.Post.Title</h3>
+                    <br />
+                    <br />
+                    @if (item.User.UserName == User.Identity.Name||User.IsInRole("CanDoEverything"))
+                    {
+                        using (Html.BeginForm("DeletePostReply", "Communication", new { id = item.Id }))
+                        {
+                            <input type="submit" value="Izbrisati Odgovor" class="btn btn-danger pull-right bottom-right" onclick="return confirm('Da li ste sigurni da zelite da izbrisete odgovor?')" />
+                        }
+                    }
+
+
+
+                </div>
+
+                <p class="mb-1">@item.Content</p>
+
+            </div>
+
+
+        }
+    </div>
+}
+else
+{
+    <h3>
+        Ovde nema nikakvih postova jos uvek, budite prvi koji ce pokrenuti jedan.
+    </h3>
+}
+
+
+
+
+
+
+
+@Html.ActionLink("Odgovori", "NewPostReply", "Communication", new { @id = ViewBag.Post.Id }, new { @class = "btn btn-primary" })

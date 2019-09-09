@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Telekomunikacije.Models.Topic>
+@{
+    ViewBag.Title = "Diskusije";
+}
+
+
+<div class="list-group-item list-group-item-action flex-column align-items-start active">
+
+    <div class="d-flex w-100 justify-content-between">
+        <h2 class="mb-1">Diskusije</h2>
+        @*<small>@item.Created</small>*@
+    </div>
+    <p class="mb-1">Ovde se nalaze sve diskusije vezane za katedru telekomunikacije.</p>
+    @*<small>primer</small>*@
+</div>
+<div class="list-group">
+    @foreach (var item in Model)
+    {
+
+
+        <a href="/Communication/Posts/@item.Id" class="list-group-item list-group-item-action flex-column align-items-start">
+
+
+
+
+            <div class="d-flex w-100 justify-content-between">
+                <small class="text-muted ">@item.Created</small>
+                <h3 class="mb-1">@item.Title</h3>
+                <br />
+                <br />
+               
+                @*<small class="text-muted pull-right bottom-right">@item.User.FirstName @item.User.LastName</small>*@
+            </div>
+
+            <p class="mb-1">@item.Description</p>
+
+        </a>
+
+
+    }
+
+
+
+
+</div>

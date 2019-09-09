@@ -1,0 +1,139 @@
+﻿@model IEnumerable<Telekomunikacije.Models.Post>
+
+
+@{
+    ViewBag.Title = "Posts";
+}
+
+
+<div class="list-group-item list-group-item-action flex-column align-items-start active">
+
+    <div class="d-flex w-100 justify-content-between">
+        <h2 class="mb-1"> @ViewBag.Topic.Title</h2>
+        @*<small>@item.Created</small>*@
+    </div>
+    <p class="mb-1">@ViewBag.Topic.Description</p>
+    @*<small>primer</small>*@
+</div>
+@if (Model.Any())
+{
+    <div class="list-group">
+        @foreach (var item in Model)
+        {
+
+
+            <a href="/Communication/Talk/@item.Id" class="list-group-item list-group-item-action flex-column align-items-start">
+
+
+                <img src="data:image;base64,@System.Convert.ToBase64String(item.User.UserPhoto)" class="pull-right mb-1" style="width:100px;height:100px; background: #FFFFFF;
+    margin: auto;
+    -moz-border-radius: 15px;
+    border-radius: 25px;
+    padding: 6px;
+    box-shadow: 0px 0px 20px #888;" />
+
+                <div class="d-flex w-100 justify-content-between">
+                    <small class="text-muted ">@item.Created</small>
+                    <br />
+                    <small class="text-muted pull-left top-left">@item.User.FirstName @item.User.LastName</small>
+                    <h3 class="mb-1">@item.Title</h3>
+                    <br />
+                    <br />
+                    @if (item.User.UserName == User.Identity.Name||User.IsInRole("CanDoEverything"))
+                    {
+                        using (Html.BeginForm("DeletePost", "Communication", new { id = item.Id }))
+                        {
+                            <input type="submit" value="Izbrisati Post" class="btn btn-danger pull-right bottom-right" onclick="return confirm('Da li ste sigurni da zelite da izbrisete Temu @item.Title?')" />
+                        }
+                    }
+
+
+
+                </div>
+
+                <p class="mb-1">@item.Content</p>
+
+            </a>
+
+
+        }
+    </div>
+}
+else
+{
+    <h3>
+        Ovde nema nikakvih postova jos uvek, budite prvi koji ce pokrenuti jedan.
+    </h3>
+}
+@Html.ActionLink("Novi Post", "NewPost", "Communication", new { @id = ViewBag.Topic.Id }, new { @class = "btn btn-primary" })
+
+</div>
+
+
+@*@using (Html.BeginForm("AddNewPost", "Communication", FormMethod.Post))
+    {
+        <br />
+        <h4>Pokrenite novu diskusiju:</h4>
+
+        @Html.TextBox("Title", null, new { @class = "form-control" })
+
+        <h4></h4>
+        @Html.TextArea("Content", null, new { @class = "form-control" })
+        <br />
+
+
+
+
+
+        @Html.HiddenFor(c => c.First().Topic.Id)
+        <br />
+        <input type="submit" id="btnUpload" class="btn btn-default" value="Upload" style="float:left;" />
+
+    }*@
+
+@*<a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">List group item heading</h5>
+            <small class="text-muted">3 days ago</small>
+        </div>
+        <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+        <small class="text-muted">Donec id elit non mi porta.</small>
+    </a>
+    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">List group item heading</h5>
+            <small class="text-muted">3 days ago</small>
+        </div>
+        <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+        <small class="text-muted">Donec id elit non mi porta.</small>
+    </a>*@
+
+
+@*@Url.Action("UserPhotos", "Home")*@
+
+
+@*<a href="/Communication/Talk/@item.Id" class="list-group-item list-group-item-action flex-column align-items-start">
+
+        <small class="text-muted pull-right">@item.Created</small>
+        <h3 class="top-left">@item.Title</h3>
+        <p class="mb-1">@item.Content</p>
+
+        <br />
+        <br />
+        <br />
+
+        <small class="text-muted pull-left">@item.User.FirstName @item.User.LastName</small>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </a>*@

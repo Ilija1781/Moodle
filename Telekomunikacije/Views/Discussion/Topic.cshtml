@@ -1,0 +1,44 @@
+﻿@model Telekomunikacije.ViewModels.TopicPostsViewModel
+@{
+    ViewBag.Title = "Topic";
+}
+
+<h2>Dobrodosli na diskusiju @Model.Topic.Name </h2>
+<h3>@Model.Topic.Description</h3>
+@Html.ActionLink("Novi Post","Create","Post",new { Id= Model.Topic.Id},null)
+
+@if(Model.Posts.Any())
+{
+    <table class="table table-hover table-bordered">
+        <tbody>
+            @foreach(var item in Model.Posts)
+            {
+            <tr>
+                <td>
+                    @Html.ActionLink( @item.Title, "Index", "Post", new { item.Id }, null)
+                   
+                </td>
+                <td>
+                    @item.AuthorName
+                </td>
+                <td>
+                    @item.DatePosted
+                </td>
+                <td>
+                    @item.RepliesCount
+                </td>
+
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="noPosts">
+        <h3>
+            Nema nikakvih postova jos uvek. Budi prvi koji ce postaviti @Html.ActionLink("post!", "Create", "Posts",new { Model.Topic.Id },null)
+        </h3>
+    </div>
+}
+
